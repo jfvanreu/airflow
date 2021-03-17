@@ -52,8 +52,8 @@ As a last step in our pipeline, we perform some basic quality checks to verify t
 
 ## Results
 We ran our pipeline on a provided data set and within an allocated time frame (Nov 2018). The pipeline performed well as shown below.
-![Airflow Results](airflow-results-1.png)
-![Airflow Results](airflow-results-2.png)
+![Airflow Results](images/airflow-results-1.png)
+![Airflow Results](images/airflow-results-2.png)
 
 Because we set a start date in the past, Airflow was smart enough to backtrack to that time and collect the matching data.
 
