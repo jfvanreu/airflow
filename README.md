@@ -28,6 +28,25 @@ We also need to define the settings of a redshift "hook". This allows us to conn
 
 ![Redshift hook](images/connection-redshift.png)
 
+## Folder structure
+The airflow code is organized as below
+![Airflow dir structure](images/airflow-dir-structure.png)
+
+The *dags* folder includes 3 files:
+- create-tables-dag.py (used to create the project tables)
+- create-tables.py (includes all the SQL queries to create tables)
+- sparkify-dag.py (Sparkify dag project file)
+
+The *plugins/operators* folder includes the operators defined to execute the various tasks included in the pipeline:
+- stage_redshift.py: operator which copies data from S3 to Redshift staging tables.
+- load-fact.py: operator which creates the FACT table (songplays) based on the staging tables.
+- load-dimension.py: operator which populates the dimension tables using data from the staging tables.
+- data-quality.py: operator which checks that the final data after the various pipeline operations.
+
+The *helpers* folder includes the SQL queries to *upsert* data into our tables.
+
+This readme.md file is also included in this folder structure.
+
 ## Creating tables in Redshift using a DAG
 Before copying data to a database, we first needed to create the various staging and STAR model FACTS and DIMENSIONS tables. We decided to create a specific DAG to perform this operation. The DAG first deletes each table and then creates new one. This was a good way to get our feet wet with Airflow.
 ![Create Tables DAG](images/create-tables-dag.png)
