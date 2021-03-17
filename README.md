@@ -17,16 +17,24 @@ Once the Airflow server is up and running, we need to create connections/hooks t
 **IMPORTANT NOTE:** Both Amazon Web Service and Redshift database hooks must be set with the right configuration for the airflow pipeline to succeed.
 
 ### Amazon Web Services hook
-To connect to Redshift and S3, we need to have some AWS user credentials. Those can be set in the Airflow/Admin/Connections tab by filling in the following fields. Note that Redshift uses a "Postgres" connection type. Also, we need valid AWS credentials for a user that has access to Redshift cluster.
+To connect to Redshift and S3, we need to have some AWS user credentials. Those can be set in the Airflow/Admin/Connections tab by filling in the following fields. 
+
+![AWS Hook](images/connection-aws-credentials.png)
+
+Note that Redshift uses a "Postgres" connection type. Also, we need valid AWS credentials for a user that has access to Redshift cluster.
 
 ### Redshift database
 We also need to define the settings of a redshift "hook". This allows us to connect to our Redshift cluster. When we created the Redshift cluster, we also created a database schema and user who can access this database. This information is key to connect to Redshift via Airflow. See below the info that needs to be provided.
+
+![Redshift hook](images/connection-redshift.png)
 
 ## Creating tables in Redshift using a DAG
 Before copying data to a database, we first needed to create the various staging and STAR model FACTS and DIMENSIONS tables. We decided to create a specific DAG to perform this operation. The DAG first deletes each table and then creates new one. This was a good way to get our feet wet with Airflow.
 
 ## Main Sparkify pipeline
 We designed the main Sparkify pipeline as shown on the workflow diagram below.
+
+![Airflow Pipeline](images/Sparkify-Dag.png)
 
 The pipeline first connects to AWS S3 to collect songs and logs data. Using this data, it creates the FACT table SONGPLAYS which includes a history of the various songs played by customers. The pipeline also creates Dimension tables for Artists, Songs, Users, and Time. This is the STAR schema that we have used in previous Sparkify projects. The database schema is available below ![database schema](https://github.com/jfvanreu/AWS-DataWarehouse/blob/main/images/DBdesign.jpeg).
 
