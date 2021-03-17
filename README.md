@@ -30,6 +30,7 @@ We also need to define the settings of a redshift "hook". This allows us to conn
 
 ## Creating tables in Redshift using a DAG
 Before copying data to a database, we first needed to create the various staging and STAR model FACTS and DIMENSIONS tables. We decided to create a specific DAG to perform this operation. The DAG first deletes each table and then creates new one. This was a good way to get our feet wet with Airflow.
+![Create Tables DAG](images/create-tables-dag.png)
 
 ## Main Sparkify pipeline
 We designed the main Sparkify pipeline as shown on the workflow diagram below.
@@ -51,13 +52,20 @@ As a last step in our pipeline, we perform some basic quality checks to verify t
 
 ## Results
 We ran our pipeline on a provided data set and within an allocated time frame (Nov 2018). The pipeline performed well as shown below.
+![Airflow Results](airflow-results-1.png)
+![Airflow Results](airflow-results-2.png)
+
 Because we set a start date in the past, Airflow was smart enough to backtrack to that time and collect the matching data.
 
+Using AWS Console UI, we could also connect to Reshift and verify that tables were populated with the relevant data.
+
 ## Lessons Learned
+- Airflow scheduler was the most complex part to learn. I thought the following [blog](https://towardsdatascience.com/airflow-schedule-interval-101-bbdda31cc463) provided good information on how it works.
 
 ## Improvements opportunities
 This project provides a good introduction to Airflow but it can be improved in multiple ways:
 - Create some sub-dags to collect data from S3 and create dimension tables.
 - Further develop the quality check operator
-- 
+
 ## Conclusion
+Overall, Airflow is a solid framework which provides an environment where we can automate and control our various data engineering tasks. Its user interface is intuitive; it is easy to track progress through the pipeline.
