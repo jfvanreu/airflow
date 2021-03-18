@@ -85,6 +85,23 @@ Using AWS Console UI, we could also connect to Reshift and verify that tables we
 This project provides a good introduction to Airflow but it can be improved in multiple ways:
 - Create some sub-dags to collect data from S3 and create dimension tables.
 - Further develop the quality check operator
+- The current quality operator "hard-coded" the check operation. It would beneficial to make the data quality operator more generalizable by moving the hardcoded tests outside the operator. In fact, we could provide a list of tests as parameters with their expected results.
+
+  Code Example:
+
+      for check in self.dq_checks:
+          sql = check.get('check_sql')
+          exp_result = check.get('expected_result')
+      records = redshift.get_records(sql)[0]
+      # compare with the expected results
+      ...
+
+  In dag, the tests can be specified as below:
+
+    dq_checks=[
+        {'check_sql': "SELECT COUNT(*) FROM users WHERE userid is null", 'expected_result': 0},
+        {'check_sql': <Could be another test>, 'expected_result': 0}
+    ]
 
 ## Conclusion
 Overall, Airflow is a solid framework which provides an environment where we can automate and control our various data engineering tasks. Its user interface is intuitive; it is easy to track progress through the pipeline.
