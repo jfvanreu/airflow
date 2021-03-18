@@ -98,10 +98,10 @@ This project provides a good introduction to Airflow but it can be improved in m
 
   In dag, the tests can be specified as below:
 
-    dq_checks=[
-        {'check_sql': "SELECT COUNT(*) FROM users WHERE userid is null", 'expected_result': 0},
-        {'check_sql': <Could be another test>, 'expected_result': 0}
-    ]
+      dq_checks=[
+          {'check_sql': "SELECT COUNT(*) FROM users WHERE userid is null", 'expected_result': 0},
+          {'check_sql': <Could be another test>, 'expected_result': 0}
+      ]
 
 ## Conclusion
 Overall, Airflow is a solid framework which provides an environment where we can automate and control our various data engineering tasks. Its user interface is intuitive; it is easy to track progress through the pipeline.
